@@ -56,6 +56,7 @@ for z in range(tamanhoMatriz-1):
                             menor = dist
                     matriz_similaridade[i][j] = menor
                 else:
+                    menor = 1000
                     for x in range(len(index[list(index)[i]])):
                         for y in range(len(index[list(index)[j]])):
                             dist = round(dist_euclidiana(
@@ -84,5 +85,4 @@ for z in range(tamanhoMatriz-1):
     index.pop(list(index)[pos_min[0]])
     tamanhoMatriz = len(index)
     print(index)
-mini = 1000
 print(vetor_min)
