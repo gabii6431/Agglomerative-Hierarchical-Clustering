@@ -1,4 +1,6 @@
 import pandas as pd
+from scipy.cluster.hierarchy import dendrogram
+import matplotlib.pyplot as plt
 import numpy as np
 import math
 
@@ -21,12 +23,14 @@ def le_arq():
 dados = le_arq()
 numObservacao = dados.shape[0]
 index = {0: [0], 1: [1], 2: [2], 3: [3], 4: [4], 5: [5]}
+grupo = {0: [0], 1: [1], 2: [2], 3: [3], 4: [4], 5: [5]}
 tamanhoMatriz = len(index)
+quantidadeGrupo = numObservacao - 1
+matriz_dendograma = np.zeros(((numObservacao-1), 4))
 menor = 1000
 mini = 1000
 vetor_min = []
 pos_min = [0, 0]
-grupo = []
 verificaIndexLinha = False
 verificaIndexColuna = False
 for z in range(tamanhoMatriz-1):
@@ -74,15 +78,77 @@ for z in range(tamanhoMatriz-1):
                     mini = matriz_similaridade[i][j]
                     pos_min = [i, j]
     vetor_min.append(mini)
-    mini = 1000
+    print(pos_min)
     if len(index[list(index)[pos_min[0]]]) == 1:
+        quantidadeGrupo = quantidadeGrupo + 1
+        if len(index[list(index)[pos_min[1]]]) == 1:
+            matriz_dendograma[z][0] = list(index)[pos_min[1]]
+            matriz_dendograma[z][1] = list(index)[pos_min[0]]
+            matriz_dendograma[z][2] = mini
+            grupo.update({quantidadeGrupo: [list(index)[pos_min[1]], list(index)[pos_min[0]]]})
+            grupo.pop(list(index)[pos_min[1]])
+            grupo.pop(list(index)[pos_min[0]])
+        else:
+            for q in range(len(list(grupo))):
+                if len(grupo[list(grupo)[q]]) == 1:
+                    continue
+                elif list(index)[pos_min[1]] not in grupo[list(grupo)[q]]:
+                    continue
+                else:
+                    pos_aux = q
+                    matriz_dendograma[z][0] = list(index)[pos_min[0]]
+                    matriz_dendograma[z][1] = list(grupo)[q]
+                    matriz_dendograma[z][2] = mini
+                    grupo.update({quantidadeGrupo: grupo[list(grupo)[q]]})
+                    grupo[quantidadeGrupo].append(list(index)[pos_min[0]])
+            grupo.pop(list(grupo)[pos_aux])
+            grupo.pop(list(index)[pos_min[0]])
         index[list(index)[pos_min[1]]].append(list(index)[pos_min[0]])
+        matriz_dendograma[z][3] = len(index[list(index)[pos_min[1]]])
     else:
+        quantidadeGrupo = quantidadeGrupo + 1
+        if len(index[list(index)[pos_min[1]]]) == 1:
+            for q in range(len(list(grupo))):
+                if len(grupo[list(grupo)[q]]) == 1:
+                    continue
+                elif list(index)[pos_min[0]] not in grupo[list(grupo)[q]]:
+                    continue
+                else:
+                    pos_aux = q
+                    matriz_dendograma[z][0] = list(index)[pos_min[1]]
+                    matriz_dendograma[z][1] = list(grupo)[q]
+                    matriz_dendograma[z][2] = mini
+                    grupo.update({quantidadeGrupo: grupo[list(grupo)[q]]})
+                    grupo[quantidadeGrupo].append(list(grupo)[pos_min[1]])
+            grupo.pop(list(grupo)[pos_aux])
+            grupo.pop(list(grupo)[pos_min[1]])
+        else:
+            for q in range(len(list(grupo))):
+                if len(grupo[list(grupo)[q]]) == 1:
+                    continue
+                elif (list(index)[pos_min[0]] or list(index)[pos_min[0]]) not in grupo[list(grupo)[q]]:
+                    continue
+                else:
+                    pos_aux = q
+                    matriz_dendograma[z][0] = list(grupo)[pos_min[0]]
+                    matriz_dendograma[z][1] = list(grupo)[q]
+                    matriz_dendograma[z][2] = mini
+                    grupo.update({quantidadeGrupo: grupo[list(grupo)[q]]})
+                    for s in range(len(grupo[list(grupo)[pos_min[1]]])):
+                        grupo[quantidadeGrupo].append(
+                            grupo[list(grupo)[pos_min[0]]][s])
+            grupo.pop(list(grupo)[pos_aux])
+            grupo.pop(list(grupo)[pos_min[1]])
         for s in range(len(index[list(index)[pos_min[0]]])):
             index[list(index)[pos_min[1]]].append(
                 index[list(index)[pos_min[0]]][s])
-    print(pos_min)
+        matriz_dendograma[z][3] = len(index[list(index)[pos_min[1]]])
     index.pop(list(index)[pos_min[0]])
     tamanhoMatriz = len(index)
     print(index)
-print(vetor_min)
+    mini = 1000
+    print(grupo)
+print(matriz_dendograma)
+dendrogram = dendrogram(matriz_dendograma, truncate_mode='none')
+plt.title("Agrupamento Hierarquico")
+plt.show()
