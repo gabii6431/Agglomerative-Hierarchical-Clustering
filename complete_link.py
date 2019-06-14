@@ -82,8 +82,13 @@ for z in range(tamanhoMatriz-1):
         quantidadeGrupo = quantidadeGrupo + 1
         matriz_dendograma[z][0] = grupo[list(index)[pos_min[0]]]
         matriz_dendograma[z][1] = grupo[list(index)[pos_min[1]]]
-        grupo[list(index)[pos_min[0]]] = quantidadeGrupo
-        grupo[list(index)[pos_min[1]]] = quantidadeGrupo
+        if len(index[list(index)[pos_min[1]]]) == 1:
+            grupo[list(index)[pos_min[0]]] = quantidadeGrupo
+            grupo[list(index)[pos_min[1]]] = quantidadeGrupo
+        else:
+            grupo[list(index)[pos_min[0]]] = quantidadeGrupo
+            for u in range(len(index[list(index)[pos_min[1]]])):
+                grupo[index[list(index)[pos_min[1]]][u]] = quantidadeGrupo
         index[list(index)[pos_min[1]]].append(list(index)[pos_min[0]])
         matriz_dendograma[z][2] = mini
         matriz_dendograma[z][3] = len(index[list(index)[pos_min[1]]])
@@ -91,8 +96,15 @@ for z in range(tamanhoMatriz-1):
         quantidadeGrupo = quantidadeGrupo + 1
         matriz_dendograma[z][0] = grupo[list(index)[pos_min[0]]]
         matriz_dendograma[z][1] = grupo[list(index)[pos_min[1]]]
-        grupo[list(index)[pos_min[0]]] = quantidadeGrupo
-        grupo[list(index)[pos_min[1]]] = quantidadeGrupo
+        if len(index[list(index)[pos_min[1]]]) == 1:
+            grupo[list(index)[pos_min[1]]] = quantidadeGrupo
+            for u in range(len(index[list(index)[pos_min[0]]])):
+                grupo[index[list(index)[pos_min[0]]][u]] = quantidadeGrupo
+        else:
+            for u in range(len(index[list(index)[pos_min[0]]])):
+                grupo[index[list(index)[pos_min[0]]][u]] = quantidadeGrupo
+            for v in range(len(index[list(index)[pos_min[1]]])):
+                grupo[index[list(index)[pos_min[1]]][v]] = quantidadeGrupo       
         for s in range(len(index[list(index)[pos_min[0]]])):
             index[list(index)[pos_min[1]]].append(
                 index[list(index)[pos_min[0]]][s])
