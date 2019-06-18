@@ -19,7 +19,8 @@ def le_arq():
     dados = np.array(dados)
     return dados
 
-def single_link():
+
+def single_lin():
     dados = le_arq()
     numObservacao = dados.shape[0]
     index = {}
@@ -122,4 +123,3 @@ def single_link():
     plt.show()
 
 
-single_link()

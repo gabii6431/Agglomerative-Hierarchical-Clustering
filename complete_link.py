@@ -121,5 +121,3 @@ def complete_link():
     plt.title("Agrupamento Hierarquico")
     plt.show()
 
-
-complete_link()
