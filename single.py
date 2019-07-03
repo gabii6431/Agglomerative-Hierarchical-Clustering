@@ -5,7 +5,7 @@ import pandas as pd
 
 
 def le_arq():
-    url = 'dados.csv'
+    url = 'iris.csv'
     dados = pd.read_csv(url, header=None)
     dados = np.array(dados)
     return dados

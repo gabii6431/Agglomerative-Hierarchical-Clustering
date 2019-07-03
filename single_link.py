@@ -14,13 +14,13 @@ def dist_euclidiana(p1, p2):
 
 
 def le_arq():
-    url = 'dados.csv'
+    url = 'iris.csv'
     dados = pd.read_csv(url, header=None)
     dados = np.array(dados)
     return dados
 
 
-def single_lin():
+def single_link():
     dados = le_arq()
     numObservacao = dados.shape[0]
     index = {}
@@ -31,7 +31,6 @@ def single_lin():
     quantidadeGrupo = numObservacao - 1
     tamanhoMatriz = len(index)
     matriz_dendograma = np.zeros(((numObservacao-1), 4))
-    print(matriz_dendograma)
     menor = 1000
     mini = 1000
     pos_min = [0, 0]
@@ -70,7 +69,6 @@ def single_lin():
                                 if menor > dist:
                                     menor = dist
                         matriz_similaridade[i][j] = menor
-        print(matriz_similaridade)
         for i in range(tamanhoMatriz):
             for j in range(tamanhoMatriz):
                 if j >= i:
@@ -79,7 +77,6 @@ def single_lin():
                     if matriz_similaridade[i][j] < mini:
                         mini = matriz_similaridade[i][j]
                         pos_min = [i, j]
-        print(pos_min)
         if len(index[list(index)[pos_min[0]]]) == 1:
             quantidadeGrupo = quantidadeGrupo + 1
             matriz_dendograma[z][0] = grupo[list(index)[pos_min[0]]]
@@ -114,12 +111,11 @@ def single_lin():
             matriz_dendograma[z][3] = len(index[list(index)[pos_min[1]]])
         index.pop(list(index)[pos_min[0]])
         tamanhoMatriz = len(index)
-        print(index)
         mini = 1000
-        print(grupo)
     print(matriz_dendograma)
     dendrogram(matriz_dendograma, truncate_mode='none')
     plt.title("Agrupamento Hierarquico")
     plt.show()
 
 
+single_link()

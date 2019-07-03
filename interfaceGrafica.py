@@ -182,7 +182,7 @@ def complete_link():
                 if j >= i:
                     continue
                 else:
-                    if matriz_similaridade[i][j] <= mini:
+                    if matriz_similaridade[i][j] < mini:
                         mini = matriz_similaridade[i][j]
                         pos_min = [i, j]
         print(pos_min)
@@ -229,16 +229,15 @@ def complete_link():
     plt.show()
 
 
-
 # INTERFACE
-
 
 janela = Tk()
 janela.title("Algoritmo não-supervisionado para agrupamento de dados")
 janela["bg"] = "#04B4AE"
 lb1 = Label(janela, text="Selecione a base de dados:         ", bg="white")
 lb = Label(janela, text="Selecione o algoritmo:   ", bg="white")
-lbinvisivel = Label(janela, text="                                      ", bg="white")
+lbinvisivel = Label(
+    janela, text="                                      ", bg="white")
 
 
 filename = ''
@@ -304,4 +303,3 @@ btn2.grid(row=4, column=1)
 # LxA+E+T
 janela.geometry("500x150+500+200")
 janela.mainloop()
-

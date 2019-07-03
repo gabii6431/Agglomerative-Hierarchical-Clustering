@@ -14,7 +14,7 @@ def dist_euclidiana(p1, p2):
 
 
 def le_arq():
-    url = 'dados.csv'
+    url = 'iris.csv'
     dados = pd.read_csv(url, header=None)
     dados = np.array(dados)
     return dados
@@ -69,16 +69,14 @@ def complete_link():
                                 if maior < dist:
                                     maior = dist
                         matriz_similaridade[i][j] = maior
-        print(matriz_similaridade)
         for i in range(tamanhoMatriz):
             for j in range(tamanhoMatriz):
                 if j >= i:
                     continue
                 else:
-                    if matriz_similaridade[i][j] <= mini:
+                    if matriz_similaridade[i][j] < mini:
                         mini = matriz_similaridade[i][j]
                         pos_min = [i, j]
-        print(pos_min)
         if len(index[list(index)[pos_min[0]]]) == 1:
             quantidadeGrupo = quantidadeGrupo + 1
             matriz_dendograma[z][0] = grupo[list(index)[pos_min[0]]]
@@ -113,11 +111,11 @@ def complete_link():
             matriz_dendograma[z][3] = len(index[list(index)[pos_min[1]]])
         index.pop(list(index)[pos_min[0]])
         tamanhoMatriz = len(index)
-        print(index)
         mini = 1000
-        print(grupo)
     print(matriz_dendograma)
     dendrogram(matriz_dendograma, truncate_mode='none')
     plt.title("Agrupamento Hierarquico")
     plt.show()
 
+
+complete_link()
