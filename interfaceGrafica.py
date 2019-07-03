@@ -302,6 +302,6 @@ btn2.grid(row=4, column=1)
 
 
 # LxA+E+T
-janela.geometry("450x150+500+200")
+janela.geometry("500x150+500+200")
 janela.mainloop()
 
